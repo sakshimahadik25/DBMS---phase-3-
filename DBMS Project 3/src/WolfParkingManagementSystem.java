@@ -25,8 +25,8 @@ public class WolfParkingManagementSystem {
     private static Connection databaseConnection() throws SQLException {
         Connection connection = null;
         Properties props = new Properties();
-        props.put("user", "sayitha");
-        props.put("password", "200498671");
+        props.put("user", "");
+        props.put("password", "");
 
         connection = DriverManager.getConnection("jdbc:mariadb://classdb2.csc.ncsu.edu:3306/sayitha", props);
         return connection;
