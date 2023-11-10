@@ -1,13 +1,13 @@
 import java.sql.*;
-import java.util.Properties;
 
 public class WolfParkingManagementSystem {
     public static void main (String args[]) {
         try {
-            Connection connection = WolfParkingManagementSystem.databaseConnection();
+            DatabaseConnection.connect();
+            Connection DB = DatabaseConnection.getDBInstance();
             String query = "SELECT * FROM ParkingLots";
             try{
-                Statement stmt = connection.createStatement();
+                Statement stmt = DB.createStatement();
                 ResultSet result = stmt.executeQuery(query);
                 while(result.next()){
                     String parkingLotName = result.getString("ParkingLotName");
@@ -20,15 +20,5 @@ public class WolfParkingManagementSystem {
         } catch(SQLException e) {
             System.out.println("Error while connecting to database - " + e.getMessage());
         }
-    }
-
-    private static Connection databaseConnection() throws SQLException {
-        Connection connection = null;
-        Properties props = new Properties();
-        props.put("user", "sayitha");
-        props.put("password", "200498671");
-
-        connection = DriverManager.getConnection("jdbc:mariadb://classdb2.csc.ncsu.edu:3306/sayitha", props);
-        return connection;
     }
 }
