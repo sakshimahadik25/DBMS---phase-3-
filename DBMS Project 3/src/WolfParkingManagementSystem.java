@@ -50,17 +50,17 @@ public class WolfParkingManagementSystem {
                             "\n2. Update parking lot information" + 
                             "\n3. Delete parking lot");
                             int parkingLotChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            ParkingLotOperations.ParkingLotChoice(parkingLotChoice, DB);
                             break;
 
                         case 3:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nZones Operations: ");
-                            System.out.println("\n1. Enter zones information" + 
+                            System.out.println("\n1. Enter zones information/Assign Zone to Parking Lot" + 
                             "\n2. Update zones information" + 
                             "\n3. Delete zone");
                             int zonesChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            ZonesOperations.ZonesChoice(zonesChoice, DB);
                             break;
 
                         case 4:
