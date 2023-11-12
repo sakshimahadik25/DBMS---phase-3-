@@ -28,8 +28,9 @@ public class WolfParkingManagementSystem {
                     "\n3. Zones Operations" + 
                     "\n4. Spaces Operations" + 
                     "\n5. Vehicle Operations " +
-                    "\n6. Citation Operations" + 
-                    "\n7. Report Operations");
+                    "\n6. Permit Operations " +
+                    "\n7. Citation Operations" + 
+                    "\n8. Report Operations");
                     int option=UserInput.getInt("\nEnter the option");
                     switch (option) {
                         case 1:
@@ -37,7 +38,7 @@ public class WolfParkingManagementSystem {
                             System.out.println("\nDrivers Operations: ");
                             System.out.println("\n1. Enter driver information" + 
                             "\n2. Update driver information" + 
-                            "\n3. Delete driver information");
+                            "\n3. Delete driver");
                             int driverChoice=UserInput.getInt("Enter your choice");
                             DriversOperations.DriversChoice(driverChoice, DB);
                             break;
@@ -47,7 +48,7 @@ public class WolfParkingManagementSystem {
                             System.out.println("\nParking Lot Operations: ");
                             System.out.println("\n1. Enter parking lot information" + 
                             "\n2. Update parking lot information" + 
-                            "\n3. Delete parking lot information");
+                            "\n3. Delete parking lot");
                             int parkingLotChoice=UserInput.getInt("\nEnter your choice: ");
                             
                             break;
@@ -57,7 +58,7 @@ public class WolfParkingManagementSystem {
                             System.out.println("\nZones Operations: ");
                             System.out.println("\n1. Enter zones information" + 
                             "\n2. Update zones information" + 
-                            "\n3. Delete zones information");
+                            "\n3. Delete zone");
                             int zonesChoice=UserInput.getInt("\nEnter your choice: ");
                             
                             break;
@@ -67,22 +68,32 @@ public class WolfParkingManagementSystem {
                             System.out.println("\nSpaces Operations: ");
                             System.out.println("\n1. Enter spaces information" + 
                             "\n2. Update spaces information" + 
-                            "\n3. Delete spaces information");
+                            "\n3. Delete space");
                             int spacesChoice=UserInput.getInt("\nEnter your choice: ");
                             
                             break;
 
                         case 5:
                             System.out.println("\n-----------------------------------------");
-                            System.out.println("\nVehicle Operations: ");
-                            System.out.println("\n1. Enter vehicle information" + 
-                            "\n2. Update vehicle information" + 
-                            "\n3. Delete vehicle information");
-                            int vehicleChoice=UserInput.getInt("\nEnter your choice: ");
+                            System.out.println("\nPermits Operations: ");
+                            System.out.println("\n1. Enter/Assign Permit" + 
+                            "\n2. Update permit information" + 
+                            "\n3. Delete permit");
+                            int permitChoice=UserInput.getInt("\nEnter your choice: ");
                             
                             break;
 
                         case 6:
+                            System.out.println("\n-----------------------------------------");
+                            System.out.println("\nVehicle Operations: ");
+                            System.out.println("\n1. Enter vehicle information" + 
+                            "\n2. Update vehicle information" + 
+                            "\n3. Delete vehicle");
+                            int vehicleChoice=UserInput.getInt("\nEnter your choice: ");
+                            
+                            break;
+
+                        case 7:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nReport Operations: ");
                             System.out.println("\n1. Generate/Create Citation" + 
@@ -95,7 +106,7 @@ public class WolfParkingManagementSystem {
                             
                             break;
 
-                        case 7:
+                        case 8:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nCitation Operations: ");
                             System.out.println("\n1. Generate Report for Citation" + 
