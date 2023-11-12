@@ -8,7 +8,7 @@ public class WolfParkingManagementSystem {
             String query = "SELECT * FROM ParkingLots";
             Statement stmt = null;
             ResultSet result = null;
-            boolean choice=true;
+            int choice=1;
             try {
                 stmt = DB.createStatement();
                 result = stmt.executeQuery(query);
@@ -21,7 +21,7 @@ public class WolfParkingManagementSystem {
                 System.out.println("\n------------------------------------------------");
                 System.out.println("\n---WELCOME TO WOLF PARKING MANAGEMENT SYSTEM---");
 
-                while(choice) {
+                while(choice == 1) {
                     System.out.println("\nSelect one from the following options: ");
                     System.out.println("\n1. Driver Operations" + 
                     "\n2. Parking Lot Operations" + 
@@ -38,8 +38,8 @@ public class WolfParkingManagementSystem {
                             System.out.println("\n1. Enter driver information" + 
                             "\n2. Update driver information" + 
                             "\n3. Delete driver information");
-                            int driverChoice=UserInput.getInt("\nEnter your choice: ");
-                            //DriversOperations.DriversChoice(driverChoice, DB);
+                            int driverChoice=UserInput.getInt("Enter your choice");
+                            DriversOperations.DriversChoice(driverChoice, DB);
                             break;
 
                         case 2:
@@ -115,6 +115,8 @@ public class WolfParkingManagementSystem {
                         default:
                             break;
                     }
+
+                    choice=UserInput.getInt("\nIf you want to continue press 1");
 
                 }
                 

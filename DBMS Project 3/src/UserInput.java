@@ -8,7 +8,7 @@ public class UserInput {
     }
     public static int getInt(String text){
         System.out.print(text + ": ");
-        return sc.nextInt();
+        return Integer.parseInt(sc.nextLine());
     }
 
     @Override
