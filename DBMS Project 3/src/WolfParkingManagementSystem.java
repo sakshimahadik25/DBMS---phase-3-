@@ -27,8 +27,8 @@ public class WolfParkingManagementSystem {
                     "\n2. Parking Lot Operations" + 
                     "\n3. Zones Operations" + 
                     "\n4. Spaces Operations" + 
-                    "\n5. Vehicle Operations " +
-                    "\n6. Permit Operations " +
+                    "\n5. Permit Operations " +
+                    "\n6. Vehicle Operations " +
                     "\n7. Citation Operations" + 
                     "\n8. Report Operations");
                     int option=UserInput.getInt("\nEnter the option");
@@ -70,7 +70,7 @@ public class WolfParkingManagementSystem {
                             "\n2. Update spaces information" + 
                             "\n3. Delete space");
                             int spacesChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            SpacesOperations.SpacesChoice(spacesChoice, DB);
                             break;
 
                         case 5:
@@ -86,11 +86,11 @@ public class WolfParkingManagementSystem {
                         case 6:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nVehicle Operations: ");
-                            System.out.println("\n1. Enter vehicle information" + 
-                            "\n2. Update vehicle information" + 
+                            System.out.println("\n1. Enter vehicle ownership information" + 
+                            "\n2. Update vehicle ownership information" + 
                             "\n3. Delete vehicle");
                             int vehicleChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            VehicleOperations.VehicleChoice(vehicleChoice, DB);
                             break;
 
                         case 7:
