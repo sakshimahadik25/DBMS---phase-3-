@@ -56,32 +56,31 @@ public class DriversOperations {
 
     public static void UpdateDriverInfo(Connection DB) {
         Statement stmt = null;
-        String query="";
+        String query = "";
         System.out.println("\n-----------------------------------------");
         String DriverID = UserInput.getString("\nEnter driver's ID or Phone Number you want to update");
-        System.out.println("\nEnter the field you want to update:" + 
-        "\n1. Name \n2. Status");
+        System.out.println("\nEnter the field you want to update:" +
+                "\n1. Name \n2. Status");
         int updateChoice = UserInput.getInt("\nEnter your choice");
-        if(updateChoice == 1) {
+        if (updateChoice == 1) {
             String Name = UserInput.getString("Update driver's name");
-            query = "UPDATE Drivers set Name=" + "'" + Name + "'" + 
-            "WHERE DriverID=" + "'" + DriverID + "'";
-        }
-        else if(updateChoice == 2) {
+            query = "UPDATE Drivers set Name=" + "'" + Name + "'" +
+                    "WHERE DriverID=" + "'" + DriverID + "'";
+        } else if (updateChoice == 2) {
             String DriverStatus = UserInput.getString("Update Driver Status:" +
-                "\n1. If Student, enter S" +
-                "\n2. If Employee, enter E" +
-                "\n3. If Visitor, enter V" +
-                "\nEnter");
-            query = "UPDATE Drivers set Status=" + "'" + DriverStatus + "'" + 
-            "WHERE DriverID=" + "'" + DriverID + "'";
-            
+                    "\n1. If Student, enter S" +
+                    "\n2. If Employee, enter E" +
+                    "\n3. If Visitor, enter V" +
+                    "\nEnter");
+            query = "UPDATE Drivers set Status=" + "'" + DriverStatus + "'" +
+                    "WHERE DriverID=" + "'" + DriverID + "'";
+
         }
 
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Driver information successfully updated!");
             }
@@ -105,7 +104,7 @@ public class DriversOperations {
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Driver information successfully deleted!");
             }

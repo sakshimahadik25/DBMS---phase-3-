@@ -76,11 +76,11 @@ public class WolfParkingManagementSystem {
                         case 5:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nPermits Operations: ");
-                            System.out.println("\n1. Enter/Assign Permit" + 
+                            System.out.println("\n1. Enter/Assign Permit according to the Driver's status information" + 
                             "\n2. Update permit information" + 
                             "\n3. Delete permit");
                             int permitChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            PermitOperations.PermitsChoice(permitChoice, DB);
                             break;
 
                         case 6:

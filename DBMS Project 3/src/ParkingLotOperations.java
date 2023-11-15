@@ -26,8 +26,8 @@ public class ParkingLotOperations {
         System.out.println("\n-----------------------------------------");
         String ParkingLotName = UserInput.getString("\nEnter parking lot name");
         String Address = UserInput.getString("Enter parking lot's address");
-        String query = "INSERT INTO ParkingLots (ParkingLotName, Address)" + 
-        "VALUES ('" + ParkingLotName + "', '" + Address + "')";
+        String query = "INSERT INTO ParkingLots (ParkingLotName, Address)" +
+                "VALUES ('" + ParkingLotName + "', '" + Address + "')";
 
         try {
             stmt = DB.createStatement();
@@ -38,7 +38,7 @@ public class ParkingLotOperations {
             }
 
         } catch (Throwable oops) {
-            //oops.printStackTrace();
+            // oops.printStackTrace();
             System.out.println("\nError while adding new parking lot!");
         } finally {
             DatabaseConnection.close(stmt);
@@ -50,18 +50,19 @@ public class ParkingLotOperations {
         System.out.println("\n-----------------------------------------");
         String ParkingLotName = UserInput.getString("\nEnter Parking Lot name you want to update");
         String Address = UserInput.getString("\nEnter the address");
-        String query = "UPDATE ParkingLots SET Address = '" + Address + "' WHERE ParkingLotName = '" + ParkingLotName + "'";
+        String query = "UPDATE ParkingLots SET Address = '" + Address + "' WHERE ParkingLotName = '" + ParkingLotName
+                + "'";
 
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Parking Lot information successfully updated!");
             }
 
         } catch (Throwable oops) {
-            //oops.printStackTrace();
+            // oops.printStackTrace();
             System.out.println("\nError while updating Parking Lot Information!");
         } finally {
             DatabaseConnection.close(stmt);
@@ -77,8 +78,6 @@ public class ParkingLotOperations {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
 
-            System.out.println("sssssss" + ans);
-            
             if (ans == 1) {
                 System.out.println("\nCongratulations! Parking Lot successfully deleted!");
             }

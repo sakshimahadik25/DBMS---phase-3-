@@ -31,9 +31,9 @@ public class VehicleOperations {
         String Color = UserInput.getString("Enter the vehicle color");
         String Manufacturer = UserInput.getString("Enter the vehicle manufacturer");
         String query = "INSERT into Vehicles " +
-        "VALUES ('" + CarLicenseNumber + "', '" + Model + "', " + Year + ", '" + 
-        Color + "', '" + Manufacturer + "', '" + DriverID + "')";
-        
+                "VALUES ('" + CarLicenseNumber + "', '" + Model + "', " + Year + ", '" +
+                Color + "', '" + Manufacturer + "', '" + DriverID + "')";
+
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
@@ -55,45 +55,44 @@ public class VehicleOperations {
 
     public static void UpdateVehicleOwnershipInfo(Connection DB) {
         Statement stmt = null;
-        String query="";
+        String query = "";
         System.out.println("\n-----------------------------------------");
-        String CarLicenseNumber = UserInput.getString("\nEnter the vehicle's Car License Number whose information you want to update");
-        System.out.println("\nEnter the field you want to update:" + 
-        "\n1. Driver's ID \n2. Model \n3. Year \n4. Color \n5. Manufacturer");
+        String CarLicenseNumber = UserInput
+                .getString("\nEnter the vehicle's Car License Number whose information you want to update");
+        System.out.println("\nEnter the field you want to update:" +
+                "\n1. Driver's ID \n2. Model \n3. Year \n4. Color \n5. Manufacturer");
         int updateChoice = UserInput.getInt("\nEnter your choice");
-        
-        if(updateChoice == 1) {
+
+        if (updateChoice == 1) {
             String DriverID = UserInput.getString("\nEnter driver's ID who owns the vehicle");
-            query = "UPDATE Vehicles set DriverID = " + "'" + DriverID + "'" + 
-            "WHERE CarLicenseNumber=" + "'" + CarLicenseNumber + "'";
-        }
-        else if(updateChoice == 2) {
+            query = "UPDATE Vehicles set DriverID = " + "'" + DriverID + "'" +
+                    "WHERE CarLicenseNumber=" + "'" + CarLicenseNumber + "'";
+        } else if (updateChoice == 2) {
             String Model = UserInput.getString("Enter the vehicle model");
-            query = "UPDATE Vehicles set Model = " + "'" + Model + "'" + 
-            "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
-        }
-        else if(updateChoice == 3) {
+            query = "UPDATE Vehicles set Model = " + "'" + Model + "'" +
+                    "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
+        } else if (updateChoice == 3) {
             int Year = UserInput.getInt("Enter the vehicle year");
-            query = "UPDATE Vehicles set Year = " + "'" + Year + "'" + 
-            "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
+            query = "UPDATE Vehicles set Year = " + "'" + Year + "'" +
+                    "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
         }
 
-        else if(updateChoice == 4) {
+        else if (updateChoice == 4) {
             String Color = UserInput.getString("Enter the vehicle color");
-            query = "UPDATE Vehicles set Color = " + "'" + Color + "'" + 
-            "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
+            query = "UPDATE Vehicles set Color = " + "'" + Color + "'" +
+                    "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
         }
 
-        else if(updateChoice == 5) {
+        else if (updateChoice == 5) {
             String Manufacturer = UserInput.getString("Enter the vehicle manufacturer");
-            query = "UPDATE Vehicles set Manufacturer = " + "'" + Manufacturer + "'" + 
-            "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
+            query = "UPDATE Vehicles set Manufacturer = " + "'" + Manufacturer + "'" +
+                    "WHERE CarLicenseNumber = " + "'" + CarLicenseNumber + "'";
         }
 
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Vehicle Ownership information successfully updated!");
             }
@@ -117,7 +116,7 @@ public class VehicleOperations {
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Vehicle Ownership information successfully deleted!");
             }

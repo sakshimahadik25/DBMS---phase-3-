@@ -27,7 +27,7 @@ public class ZonesOperations {
         String ZoneID = UserInput.getString("\nEnter Zone ID");
         String ParkingLotName = UserInput.getString("Enter Parking Lot name");
         String query = "INSERT INTO Zones (ZoneID, ParkingLotName) VALUES ('" +
-        ZoneID + "','" + ParkingLotName + "')";
+                ZoneID + "','" + ParkingLotName + "')";
 
         try {
             stmt = DB.createStatement();
@@ -56,13 +56,13 @@ public class ZonesOperations {
         String newZoneID = UserInput.getString("\nEnter new Zone ID");
         String newParkingLotName = UserInput.getString("\nEnter new Parking Lot name");
         String query = "UPDATE Zones SET ParkingLotName = '" + newParkingLotName + "', " +
-        "ZoneID = '" + newZoneID + "' WHERE ZoneID = '" + ZoneID + "' AND" + 
-        " ParkingLotName = '" + ParkingLotName + "'";
+                "ZoneID = '" + newZoneID + "' WHERE ZoneID = '" + ZoneID + "' AND" +
+                " ParkingLotName = '" + ParkingLotName + "'";
 
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Zone information successfully updated!");
             }
@@ -83,12 +83,12 @@ public class ZonesOperations {
         System.out.println("\n-----------------------------------------");
         String ZoneID = UserInput.getString("\nEnter Zone ID you want to delete");
         String ParkingLotName = UserInput.getString("Enter Parking Lot name you want to delete");
-        String query = "DELETE FROM Zones WHERE ZoneID = '" +  ZoneID + "'" + 
-        "AND ParkingLotName = '" + ParkingLotName + "'";
+        String query = "DELETE FROM Zones WHERE ZoneID = '" + ZoneID + "'" +
+                "AND ParkingLotName = '" + ParkingLotName + "'";
         try {
             stmt = DB.createStatement();
             int ans = stmt.executeUpdate(query);
-            
+
             if (ans == 1) {
                 System.out.println("\nCongratulations! Zone information successfully deleted!");
             }
