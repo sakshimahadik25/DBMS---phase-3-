@@ -16,25 +16,34 @@ public class DatabaseConnection {
         DB = DriverManager.getConnection("jdbc:mariadb://classdb2.csc.ncsu.edu:3306/sayitha", props);
     }
 
-    public static Connection getDBInstance(){
+    public static Connection getDBInstance() {
         return DB;
     }
 
     static void close(Connection conn) {
-        if(conn != null) {
-            try { conn.close(); } catch(Throwable whatever) {}
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Throwable whatever) {
+            }
         }
     }
 
     static void close(Statement st) {
-        if(st != null) {
-            try { st.close(); } catch(Throwable whatever) {}
+        if (st != null) {
+            try {
+                st.close();
+            } catch (Throwable whatever) {
+            }
         }
     }
 
     static void close(ResultSet rs) {
-        if(rs != null) {
-            try { rs.close(); } catch(Throwable whatever) {}
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (Throwable whatever) {
+            }
         }
     }
 }

@@ -27,8 +27,8 @@ public class WolfParkingManagementSystem {
                     "\n2. Parking Lot Operations" + 
                     "\n3. Zones Operations" + 
                     "\n4. Spaces Operations" + 
-                    "\n5. Vehicle Operations " +
-                    "\n6. Permit Operations " +
+                    "\n5. Permit Operations " +
+                    "\n6. Vehicle Operations " +
                     "\n7. Citation Operations" + 
                     "\n8. Report Operations");
                     int option=UserInput.getInt("\nEnter the option");
@@ -50,17 +50,17 @@ public class WolfParkingManagementSystem {
                             "\n2. Update parking lot information" + 
                             "\n3. Delete parking lot");
                             int parkingLotChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            ParkingLotOperations.ParkingLotChoice(parkingLotChoice, DB);
                             break;
 
                         case 3:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nZones Operations: ");
-                            System.out.println("\n1. Enter zones information" + 
+                            System.out.println("\n1. Enter zones information/Assign Zone to Parking Lot" + 
                             "\n2. Update zones information" + 
                             "\n3. Delete zone");
                             int zonesChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            ZonesOperations.ZonesChoice(zonesChoice, DB);
                             break;
 
                         case 4:
@@ -70,27 +70,27 @@ public class WolfParkingManagementSystem {
                             "\n2. Update spaces information" + 
                             "\n3. Delete space");
                             int spacesChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            SpacesOperations.SpacesChoice(spacesChoice, DB);
                             break;
 
                         case 5:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nPermits Operations: ");
-                            System.out.println("\n1. Enter/Assign Permit" + 
+                            System.out.println("\n1. Enter/Assign Permit according to the Driver's status information" + 
                             "\n2. Update permit information" + 
                             "\n3. Delete permit");
                             int permitChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            PermitOperations.PermitsChoice(permitChoice, DB);
                             break;
 
                         case 6:
                             System.out.println("\n-----------------------------------------");
                             System.out.println("\nVehicle Operations: ");
-                            System.out.println("\n1. Enter vehicle information" + 
-                            "\n2. Update vehicle information" + 
+                            System.out.println("\n1. Enter vehicle ownership information" + 
+                            "\n2. Update vehicle ownership information" + 
                             "\n3. Delete vehicle");
                             int vehicleChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            VehicleOperations.VehicleChoice(vehicleChoice, DB);
                             break;
 
                         case 7:
