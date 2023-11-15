@@ -2,22 +2,10 @@ import java.sql.*;
 
 public class WolfParkingManagementSystem {
     public static void main(String args[]) {
+        Connection DB = null;
         try {
             DatabaseConnection.connect();
-//            Connection DB = DatabaseConnection.getDBInstance();
-//            String query = "SELECT * FROM ParkingLots";
-//            Statement stmt = null;
-//            ResultSet result = null;
-//
-//            try {
-//                stmt = DB.createStatement();
-//                result = stmt.executeQuery(query);
-//                while (result.next()) {
-//                    String parkingLotName = result.getString("ParkingLotName");
-//                    String address = result.getString("Address");
-//                    System.out.println(parkingLotName + " " + address);
-//                }
-
+            DB = DatabaseConnection.getDBInstance();
                 System.out.println("\n------------------------------------------------");
                 System.out.println("\n---WELCOME TO WOLF PARKING MANAGEMENT SYSTEM---");
                 int choice=1;
@@ -40,7 +28,7 @@ public class WolfParkingManagementSystem {
                             "\n2. Update driver information" + 
                             "\n3. Delete driver");
                             int driverChoice=UserInput.getInt("Enter your choice");
-//                            DriversOperations.DriversChoice(driverChoice, DB);
+                            DriversOperations.DriversChoice(driverChoice, DB);
                             break;
 
                         case 2:
@@ -145,7 +133,38 @@ public class WolfParkingManagementSystem {
                             "\n9. Available Space Number Given A Space Type And Lot"
                             );
                             int reportChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+
+                            switch(reportChoice){
+                                case 1:
+                                    ReportOperations.citationReport();
+                                    break;
+                                case 2:
+                                    ReportOperations.monthlyCitationReport();
+                                    break;
+                                case 3:
+                                    ReportOperations.annualCitationReport();
+                                    break;
+                                case 4:
+                                    ReportOperations.rangeBasedCitationReport();
+                                    break;
+                                case 5:
+                                    ReportOperations.listZonesForEachLot();
+                                    break;
+                                case 6:
+                                    ReportOperations.numberOfCarsInViolation();
+                                    break;
+                                case 7:
+                                    ReportOperations.numberOfEmployeesHavingPermitsForGivenZone();
+                                    break;
+                                case 8:
+                                    ReportOperations.permitInformation();
+                                    break;
+                                case 9:
+                                    ReportOperations.spaceAvailability();
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice");
+                            }
                             break;
                     
                         default:
@@ -155,18 +174,11 @@ public class WolfParkingManagementSystem {
                     choice=UserInput.getInt("\nIf you want to continue press 1");
 
                 }
-                
-//            } finally {
-//                DatabaseConnection.close(result);
-//                DatabaseConnection.close(stmt);
-//                DatabaseConnection.close(DB);
-//            }
-//               catch(SQLException e){
-//               System.out.println(e.getMessage());
-//               }
 
         } catch (SQLException e) {
             System.out.println("Error while connecting to database - " + e.getMessage());
+        } finally {
+            if(DB != null) DatabaseConnection.close(DB);
         }
     }
 }
