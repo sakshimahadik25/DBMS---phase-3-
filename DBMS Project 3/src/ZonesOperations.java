@@ -16,6 +16,7 @@ public class ZonesOperations {
                 break;
 
             default:
+                System.out.println("\nInvalid Choice");
                 break;
         }
 

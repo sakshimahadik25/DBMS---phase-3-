@@ -17,6 +17,7 @@ public class SpacesOperations {
                 break;
 
             default:
+                System.out.println("\nInvalid Choice");
                 break;
         }
 

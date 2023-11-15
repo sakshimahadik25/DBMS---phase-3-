@@ -168,6 +168,7 @@ public class WolfParkingManagementSystem {
                             break;
                     
                         default:
+                            System.out.println("\nInvalid Choice");
                             break;
                     }
 

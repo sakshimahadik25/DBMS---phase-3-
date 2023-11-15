@@ -16,6 +16,7 @@ public class PermitOperations {
                 break;
 
             default:
+                System.out.println("\nInvalid Choice");
                 break;
         }
 

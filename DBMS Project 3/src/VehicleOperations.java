@@ -16,6 +16,7 @@ public class VehicleOperations {
                 break;
 
             default:
+                System.out.println("\nInvalid Choice");
                 break;
         }
 
