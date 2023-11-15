@@ -4,23 +4,23 @@ public class WolfParkingManagementSystem {
     public static void main(String args[]) {
         try {
             DatabaseConnection.connect();
-            Connection DB = DatabaseConnection.getDBInstance();
-            String query = "SELECT * FROM ParkingLots";
-            Statement stmt = null;
-            ResultSet result = null;
-            int choice=1;
-            try {
-                stmt = DB.createStatement();
-                result = stmt.executeQuery(query);
-                while (result.next()) {
-                    String parkingLotName = result.getString("ParkingLotName");
-                    String address = result.getString("Address");
-                    System.out.println(parkingLotName + " " + address);
-                }
+//            Connection DB = DatabaseConnection.getDBInstance();
+//            String query = "SELECT * FROM ParkingLots";
+//            Statement stmt = null;
+//            ResultSet result = null;
+//
+//            try {
+//                stmt = DB.createStatement();
+//                result = stmt.executeQuery(query);
+//                while (result.next()) {
+//                    String parkingLotName = result.getString("ParkingLotName");
+//                    String address = result.getString("Address");
+//                    System.out.println(parkingLotName + " " + address);
+//                }
 
                 System.out.println("\n------------------------------------------------");
                 System.out.println("\n---WELCOME TO WOLF PARKING MANAGEMENT SYSTEM---");
-
+                int choice=1;
                 while(choice == 1) {
                     System.out.println("\nSelect one from the following options: ");
                     System.out.println("\n1. Driver Operations" + 
@@ -40,7 +40,7 @@ public class WolfParkingManagementSystem {
                             "\n2. Update driver information" + 
                             "\n3. Delete driver");
                             int driverChoice=UserInput.getInt("Enter your choice");
-                            DriversOperations.DriversChoice(driverChoice, DB);
+//                            DriversOperations.DriversChoice(driverChoice, DB);
                             break;
 
                         case 2:
@@ -101,9 +101,34 @@ public class WolfParkingManagementSystem {
                             "\n3. Delete Citation" + 
                             "\n4. Detect Parking Violation" + 
                             "\n5. Appeal Citation" +
-                            "\n6. Pay For Citation");
+                            "\n6. Pay For Citation" +
+                            "\n7. Get Citation");
                             int citationChoice=UserInput.getInt("\nEnter your choice: ");
-                            
+                            switch (citationChoice){
+                                case 1:
+                                    Citation.create();
+                                    break;
+                                case 2:
+                                    Citation.update();
+                                    break;
+                                case 3:
+                                    Citation.delete();
+                                    break;
+                                case 4:
+                                    Citation.detectParkingViolations();
+                                    break;
+                                case 5:
+                                    Citation.appealCitation();
+                                    break;
+                                case 6:
+                                    Citation.payForCitation();
+                                    break;
+                                case 7:
+                                    Citation.getCitation();
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice");
+                            }
                             break;
 
                         case 8:
@@ -131,15 +156,15 @@ public class WolfParkingManagementSystem {
 
                 }
                 
-            } finally {
-                DatabaseConnection.close(result);
-                DatabaseConnection.close(stmt);
-                DatabaseConnection.close(DB);
-            } /*
-               * catch(SQLException e){
-               * System.out.println(e.getMessage());
-               * }
-               */
+//            } finally {
+//                DatabaseConnection.close(result);
+//                DatabaseConnection.close(stmt);
+//                DatabaseConnection.close(DB);
+//            }
+//               catch(SQLException e){
+//               System.out.println(e.getMessage());
+//               }
+
         } catch (SQLException e) {
             System.out.println("Error while connecting to database - " + e.getMessage());
         }

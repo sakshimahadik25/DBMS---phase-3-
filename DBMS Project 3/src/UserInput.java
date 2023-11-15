@@ -10,6 +10,10 @@ public class UserInput {
         System.out.print(text + ": ");
         return Integer.parseInt(sc.nextLine());
     }
+    public static float getFloat(String text){
+        System.out.print(text + ": ");
+        return Float.parseFloat(sc.nextLine());
+    }
 
     @Override
     protected void finalize(){
