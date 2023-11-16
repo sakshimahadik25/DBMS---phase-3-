@@ -47,8 +47,8 @@ public class VehicleOperations {
                 System.out.println("\nError while adding Vehicle Ownership Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -102,8 +102,8 @@ public class VehicleOperations {
                 System.out.println("\nError while updating Vehicle Ownership Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -126,8 +126,8 @@ public class VehicleOperations {
                 System.out.println("\nError while deleting Vehicle Ownership Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }

@@ -48,8 +48,8 @@ public class DriversOperations {
                 System.out.println("\nError while entering Driver Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -90,8 +90,8 @@ public class DriversOperations {
                 System.out.println("\nError while updating Driver Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -114,8 +114,8 @@ public class DriversOperations {
                 System.out.println("\nError while deleting Driver Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }

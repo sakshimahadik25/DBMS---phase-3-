@@ -64,8 +64,8 @@ public class SpacesOperations {
                 System.out.println("\nError while adding new parking space!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -124,8 +124,8 @@ public class SpacesOperations {
                 System.out.println("\nError while updating Parking Space Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -150,8 +150,8 @@ public class SpacesOperations {
                 System.out.println("\nError while deleting the parking Space!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }

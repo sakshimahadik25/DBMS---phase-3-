@@ -38,9 +38,8 @@ public class ParkingLotOperations {
                 System.out.println("\nCongratulations! New Parking Lot information successfully entered!");
             }
 
-        } catch (Throwable oops) {
-            // oops.printStackTrace();
-            System.out.println("\nError while adding new parking lot!");
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -62,9 +61,8 @@ public class ParkingLotOperations {
                 System.out.println("\nCongratulations! Parking Lot information successfully updated!");
             }
 
-        } catch (Throwable oops) {
-            // oops.printStackTrace();
-            System.out.println("\nError while updating Parking Lot Information!");
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -87,8 +85,8 @@ public class ParkingLotOperations {
                 System.out.println("\nError while deleting Parking Lot!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
