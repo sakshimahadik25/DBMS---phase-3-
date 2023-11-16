@@ -1,9 +1,5 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
-import java.sql.Statement;
 
 public class DatabaseConnection {
     private static Connection DB = null;
@@ -20,16 +16,26 @@ public class DatabaseConnection {
         return DB;
     }
 
-    static void close(Connection conn) {
-        if (conn != null) {
+    static void close() {
+        if (DB != null) {
             try {
-                conn.close();
-            } catch (Throwable whatever) {
+                DB.close();
+            } catch (Throwable error) {
+                System.out.println("Error while closing database connection - " + error.getMessage());
             }
         }
     }
 
     static void close(Statement st) {
+        if (st != null) {
+            try {
+                st.close();
+            } catch (Throwable whatever) {
+            }
+        }
+    }
+
+    static void close(PreparedStatement st) {
         if (st != null) {
             try {
                 st.close();

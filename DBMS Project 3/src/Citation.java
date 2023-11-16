@@ -12,18 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Citation {
-    int citationNo;
-    String citationDate;
-    String citationTime;
-    String category;
-    float fee;
-    String paymentStatus;
-    String appealStatus;
-    String carLicenseNumber;
-    String parkingLotName;
-    String driverID;
-    int staffID;
-
     private static HashMap<String, Float> categoryFee = new HashMap<String, Float>() {{
         put(PermitCategory.INVALID_PERMIT, (float) 25);
         put(PermitCategory.EXPIRED_PERMIT, (float) 30);
@@ -35,13 +23,48 @@ public class Citation {
         return "\'" + s + "\'";
     }
 
+    public static void CitationChoice(int citationChoice){
+        switch (citationChoice){
+            case 0:
+                return;
+            case 1:
+                Citation.create();
+                break;
+            case 2:
+                Citation.update();
+                break;
+            case 3:
+                Citation.delete();
+                break;
+            case 4:
+                Citation.detectParkingViolations();
+                break;
+            case 5:
+                Citation.appealCitation();
+                break;
+            case 6:
+                Citation.payForCitation();
+                break;
+//            case 7:
+//                Citation.getCitation();
+//                break;
+            default:
+                System.out.println("Invalid choice");
+                break;
+        }
+    }
+
     public static void getCitation() {
         int citationNo = UserInput.getInt("Enter citation number");
         String getCitationQuery = String.format("SELECT * FROM Citations WHERE CitationNo = %d", citationNo);
+
+        Statement stmt = null;
+        ResultSet result = null;
+
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            Statement stmt = DB.createStatement();
-            ResultSet result = stmt.executeQuery(getCitationQuery);
+            stmt = DB.createStatement();
+            result = stmt.executeQuery(getCitationQuery);
             if (result.next()) {
                 System.out.println("\nCitation Number: " + result.getInt("CitationNo"));
                 System.out.println("Citation Date: " + result.getString("CitationDate"));
@@ -61,15 +84,21 @@ public class Citation {
             System.out.println("Error while fetching citation details: " + err.getMessage());
         } catch (Exception e) {
             System.out.println(String.format("Error - %s", e.getMessage()));
+        } finally {
+            DatabaseConnection.close(result);
+            DatabaseConnection.close(stmt);
         }
     }
 
     public static void delete() {
         int citationNo = UserInput.getInt("Enter citation number");
         String query = "DELETE FROM Citations WHERE CitationNo=" + citationNo;
+
+        Statement stmt = null;
+
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            Statement stmt = DB.createStatement();
+            stmt = DB.createStatement();
             System.out.println("Query: " + query);
             int deleteCount = stmt.executeUpdate(query);
             if (deleteCount > 0) {
@@ -79,6 +108,8 @@ public class Citation {
             }
         } catch (SQLException err) {
             System.out.println("Error while generating citation: " + err.getMessage());
+        } finally {
+            DatabaseConnection.close(stmt);
         }
     }
 
@@ -119,9 +150,11 @@ public class Citation {
 
             System.out.println("Query: " + query);
 
+            Statement stmt = null;
+
             try {
                 Connection DB = DatabaseConnection.getDBInstance();
-                Statement stmt = DB.createStatement();
+                stmt = DB.createStatement();
                 System.out.println("Query: " + query);
                 boolean createStatus = stmt.execute(query);
                 if (!createStatus) {
@@ -130,20 +163,23 @@ public class Citation {
                 stmt.close();
             } catch (SQLException err) {
                 System.out.println("Error while generating citation: " + err.getMessage());
+            }  finally {
+                DatabaseConnection.close(stmt);
             }
         }
     }
 
     public static void update() {
+        Statement stmt = null;
+        ResultSet result = null;
         try {
             int citationNo = UserInput.getInt("Enter citation number");
 
             // Fetch citation
             String getCitationQuery = String.format("SELECT * FROM Citations WHERE CitationNo = %d", citationNo);
-            ResultSet result = null;
             try {
                 Connection DB = DatabaseConnection.getDBInstance();
-                Statement stmt = DB.createStatement();
+                stmt = DB.createStatement();
                 result = stmt.executeQuery(getCitationQuery);
                 if (!result.next()) {
                     throw new Exception(String.format("Citation %d does not exist", citationNo));
@@ -153,6 +189,9 @@ public class Citation {
             } catch (Exception e) {
                 System.out.println(String.format("Error - %s", e.getMessage()));
                 return;
+            } finally {
+                DatabaseConnection.close(result);
+                DatabaseConnection.close(stmt);
             }
 
             String[] newAttributeList = Arrays.stream(attributeList).filter(attr -> !attr.equals("Fee")).toArray(String[]::new);
@@ -162,13 +201,10 @@ public class Citation {
                 System.out.println(i + " " + newAttributeList[i]);
             }
             String choice = UserInput.getString("Enter attribute");
-//        String attributes[] = choice.split(",");
 
             String query = "UPDATE Citations SET ";
             ArrayList<String> updateConditions = new ArrayList<>();
             System.out.println("\nEnter new value");
-//        String selectedAppealStatus = null;
-//        String selectedPaymentStatus = null;
 
             String attr = newAttributeList[Integer.parseInt(choice)];
             if (attr == "Category") {
@@ -212,50 +248,6 @@ public class Citation {
                     updateConditions.add(attr + "=" + UserInput.getString("Enter " + attr));
                 }
             }
-//        for (int i = 0; i < attributes.length; i++) {
-//            String attr = newAttributeList[Integer.parseInt(attributes[i])];
-//            if (attr == "Category") {
-//                System.out.print("Select category: ");
-//                String [] categories = PermitCategory.getCategories();
-//                String selectedCategory = displayOptions(categories);
-//
-//                System.out.println("Is driver handicap?");
-//                String[] handicapOptions = new String[]{"Yes","No"};
-//                boolean isHandicap = Integer.parseInt(displayOptions(handicapOptions)) == 1;
-//
-//                float fee = categoryFee.get(selectedCategory);
-//                if(isHandicap) fee /= 2;
-//
-//                updateConditions.add("Fee" + "=" + fee);
-//                updateConditions.add(attr + "=" + stringify(selectedCategory));
-//
-//            } else if(attr == "AppealStatus"){
-//                System.out.print("Select appeal status: ");
-//                String [] appealStatuses = AppealStatus.getAppealStatuses();
-//                selectedAppealStatus = displayOptions(appealStatuses);
-//            } else if(attr == "PaymentStatus"){
-//                System.out.print("Select payment status: ");
-//                String [] paymentStatuses = PaymentStatus.getPaymentStatuses();
-//                selectedPaymentStatus = displayOptions(paymentStatuses);
-//            } else {
-//                if (!attr.equals("StaffID")) {
-//                    updateConditions.add(attr + "=" + stringify(UserInput.getString("Enter " + attr)));
-//                } else {
-//                    updateConditions.add(attr + "=" + UserInput.getString("Enter " + attr));
-//                }
-//            }
-//        }
-//        if(selectedPaymentStatus != null){
-//            if(selectedPaymentStatus.equals(PaymentStatus.PAID) && selectedAppealStatus != null && selectedAppealStatus.equals(AppealStatus.IN_PROGRESS)) selectedAppealStatus = AppealStatus.REJECT;
-//            else if(selectedPaymentStatus.equals(PaymentStatus.WAIVED)) selectedAppealStatus = AppealStatus.ACCEPT;
-//        }
-//        if(selectedAppealStatus != null){
-//            if(selectedAppealStatus.equals(AppealStatus.ACCEPT)) selectedPaymentStatus = PaymentStatus.WAIVED;
-//            else if(selectedAppealStatus.equals(AppealStatus.IN_PROGRESS)) selectedPaymentStatus = PaymentStatus.DUE;
-//        }
-
-//        if(selectedPaymentStatus != null) updateConditions.add("PaymentStatus" + "=" + stringify(selectedPaymentStatus));
-//        if(selectedAppealStatus != null) updateConditions.add("AppealStatus" + "=" + stringify(selectedAppealStatus));
 
             for (int i = 0; i < updateConditions.size(); i++) {
                 query += updateConditions.get(i);
@@ -266,7 +258,7 @@ public class Citation {
 
 
             Connection DB = DatabaseConnection.getDBInstance();
-            Statement stmt = DB.createStatement();
+            stmt = DB.createStatement();
             System.out.println("Query: " + query);
 
             int updateStatus = stmt.executeUpdate(query);
@@ -275,6 +267,8 @@ public class Citation {
             } else throw new SQLException(String.format("Citation %d does not exist", citationNo));
         } catch (SQLException err) {
             System.out.println("Error while updating citation: " + err.getMessage());
+        } finally {
+            DatabaseConnection.close(stmt);
         }
     }
 
@@ -289,9 +283,11 @@ public class Citation {
 
         String query = "SELECT * FROM Permits WHERE CarLicenseNumber = ? AND ParkingLotName = ? AND ZoneID = ? AND SpaceType = ? AND DATEDIFF(NOW(), StartDate) > 0 AND (DATEDIFF(ExpirationDate, NOW()) > 0 OR (DATEDIFF(ExpirationDate, NOW()) = 0 AND time_to_sec(TIMEDIFF(CONCAT_WS(' ', ExpirationDate, ExpirationTime), NOW()) > 0))) > 0;";
 
+        PreparedStatement stmt = null;
+
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            PreparedStatement stmt = DB.prepareStatement(query);
+            stmt = DB.prepareStatement(query);
             stmt.setString(1, carLicenseNumber);
             stmt.setString(2, parkingLot);
             stmt.setString(3, zoneID);
@@ -337,6 +333,8 @@ public class Citation {
 
         } catch (SQLException err) {
             System.out.println("Error while detecting parking violations: " + err.getMessage());
+        }  finally {
+            DatabaseConnection.close(stmt);
         }
         return false;
     }
@@ -344,10 +342,10 @@ public class Citation {
     public static void appealCitation() {
         String query = String.format("UPDATE Citations SET AppealStatus = '%s' WHERE CitationNo = ?", AppealStatus.IN_PROGRESS);
         int citationNo = UserInput.getInt("Enter citation number");
-
+        PreparedStatement stmt = null;
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            PreparedStatement stmt = DB.prepareStatement(query);
+            stmt = DB.prepareStatement(query);
             stmt.setInt(1, citationNo);
             System.out.println("Query: " + query);
 
@@ -360,6 +358,8 @@ public class Citation {
 
         } catch (SQLException err) {
             System.out.println("Error while detecting parking violations: " + err.getMessage());
+        } finally {
+            DatabaseConnection.close(stmt);
         }
     }
 
@@ -367,10 +367,15 @@ public class Citation {
         int citationNo = UserInput.getInt("Enter citation number");
         String getCitationQuery = String.format("SELECT * FROM Citations WHERE CitationNo = %d", citationNo);
         String appealStatus = "";
+
+        Statement stmt = null;
+        ResultSet result = null;
+        PreparedStatement prep_stmt = null;
+
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            Statement stmt = DB.createStatement();
-            ResultSet result = stmt.executeQuery(getCitationQuery);
+            stmt = DB.createStatement();
+            result = stmt.executeQuery(getCitationQuery);
             if (result.next()) {
                 appealStatus = result.getString("AppealStatus");
             } else {
@@ -380,16 +385,19 @@ public class Citation {
             System.out.println("Error while fetching citation details: " + err.getMessage());
         } catch (Exception e) {
             System.out.println(String.format("Error - %s", e.getMessage()));
+        } finally {
+            DatabaseConnection.close(result);
+            DatabaseConnection.close(stmt);
         }
 
         String query = String.format("UPDATE Citations SET PaymentStatus = '%s', AppealStatus = '%s' WHERE CitationNo = %d;", PaymentStatus.PAID, appealStatus.equals(AppealStatus.IN_PROGRESS) ? AppealStatus.REJECT : AppealStatus.NO_APPEAL, citationNo);
 
         try {
             Connection DB = DatabaseConnection.getDBInstance();
-            PreparedStatement stmt = DB.prepareStatement(query);
+            prep_stmt = DB.prepareStatement(query);
             System.out.println("Query: " + query);
 
-            int updateCount = stmt.executeUpdate();
+            int updateCount = prep_stmt.executeUpdate();
             if (updateCount > 0) {
                 System.out.println(String.format("Payment successful for citation (%d)", citationNo));
             } else {
@@ -398,6 +406,9 @@ public class Citation {
 
         } catch (SQLException err) {
             System.out.println("Error while paying for citations: " + err.getMessage());
+        } finally {
+            DatabaseConnection.close(stmt);
+            DatabaseConnection.close(prep_stmt);
         }
     }
 
