@@ -3,6 +3,9 @@ import java.sql.*;
 public class VehicleOperations {
     public static void VehicleChoice(int VehicleChoice, Connection DB) {
         switch (VehicleChoice) {
+            case 0:
+                return;
+
             case 1:
                 EnterVehicleOwnershipInfo(DB);
                 break;

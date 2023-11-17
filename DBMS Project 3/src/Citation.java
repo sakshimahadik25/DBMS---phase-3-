@@ -165,15 +165,13 @@ public class Citation {
             stmt = DB.createStatement();
             result = stmt.executeQuery(getCitationQuery);
             if (!result.next()) {
-                // If it is an invalid citation number, then the transaction is rolled back
-                DB.rollback();
+                // If it is an invalid citation number, exception is thrown and the transaction is rolled back
                 throw new Exception(String.format("Citation %d does not exist", citationNo));
             } else {
                 // Delete previous citation
                 int deleteCount = stmt.executeUpdate(deleteQuery);
                 if(deleteCount == 0) {
-                    // If error occurs while deleting the citation, then the transaction is rolled back
-                    DB.rollback();
+                    // If error occurs while deleting the citation, exception is thrown and the transaction is rolled back
                     throw new Exception(String.format("Error while updating citation %d", citationNo));
                 }
 
@@ -271,13 +269,15 @@ public class Citation {
                     DB.commit();
                     System.out.println("Citation updated successfully");
                 } else {
-                    // If error occurs while inserting the citation, the transaction is rolled back
-                    DB.rollback();throw new Exception(String.format("Error while updating citation %d", citationNo));
+                    // If error occurs while inserting the citation, exception is thrown and the transaction is rolled back
+                    throw new Exception(String.format("Error while updating citation %d", citationNo));
             }
         }
         } catch (SQLException err) {
+            DB.rollback();
             System.out.println("\nError while fetching citation details: " + err.getMessage());
         } catch (Exception e) {
+            DB.rollback();
             System.out.println(String.format("\nError: %s", e.getMessage()));
         } finally {
             DatabaseConnection.close(result);

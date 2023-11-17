@@ -3,6 +3,8 @@ import java.sql.*;
 public class ParkingLotOperations {
     public static void ParkingLotChoice(int ParkingLotChoice, Connection DB) {
         switch (ParkingLotChoice) {
+            case 0:
+                return;
             case 1:
                 EnterParkingLotInfo(DB);
                 break;

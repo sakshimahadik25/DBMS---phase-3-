@@ -3,6 +3,9 @@ import java.sql.*;
 public class ZonesOperations {
     public static void ZonesChoice(int ZonesChoice, Connection DB) {
         switch (ZonesChoice) {
+            case 0:
+                return;
+
             case 1:
                 AssignZone(DB);
                 break;

@@ -4,6 +4,9 @@ public class SpacesOperations {
 
     public static void SpacesChoice(int SpacesChoice, Connection DB) {
         switch (SpacesChoice) {
+            case 0:
+                return;
+
             case 1:
                 AddSpace(DB);
                 break;

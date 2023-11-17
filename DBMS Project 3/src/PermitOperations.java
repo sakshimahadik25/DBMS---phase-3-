@@ -3,6 +3,9 @@ import java.sql.*;
 public class PermitOperations {
     public static void PermitsChoice(int PermitChoice, Connection DB) {
         switch (PermitChoice) {
+            case 0:
+                return;
+
             case 1:
                 AssignPermit(DB);
                 break;

@@ -13,7 +13,7 @@ public class ReportOperations {
 
         switch (reportChoice) {
             case 0:
-                break;
+                return;
             case 1:
                 citationReport();
                 break;
@@ -292,9 +292,9 @@ public class ReportOperations {
 
             System.out.println(String.format("\n------------------ Permit information ------------------\n"));
             if(result.next()){
-                System.out.printf("%10s %15s %15s %20s %20s %15s %20s %8s %15s %15s", "Permit ID", "Permit type", "Start date", "Expiration date", "Expiration time", "Space type", "Car license number", "Zone", "Parking lot", "Driver status");
+                System.out.printf("%10s %15s %15s %20s %20s %15s %20s %8s %30s %15s", "Permit ID", "Permit type", "Start date", "Expiration date", "Expiration time", "Space type", "Car license number", "Zone", "Parking lot", "Driver status");
                 do {
-                    System.out.format("\n%10d %15s %15s %20s %20s %15s %20s %8s %15s %15s", result.getInt("PermitID"), result.getString("PermitType"), result.getString("StartDate"), result.getString("ExpirationDate"), result.getString("ExpirationTime"), result.getString("SpaceType"), result.getString("CarLicenseNumber"), result.getString("ZoneID"), result.getString("ParkingLotName"), result.getString("DriverStatus"));
+                    System.out.format("\n%10d %15s %15s %20s %20s %15s %20s %8s %30s %15s", result.getInt("PermitID"), result.getString("PermitType"), result.getString("StartDate"), result.getString("ExpirationDate"), result.getString("ExpirationTime"), result.getString("SpaceType"), result.getString("CarLicenseNumber"), result.getString("ZoneID"), result.getString("ParkingLotName"), result.getString("DriverStatus"));
                 } while(result.next());
             } else {
                 System.out.println(String.format("\nPermit information not available for Driver(%s)",driverID));

@@ -4,6 +4,8 @@ public class DriversOperations {
 
     public static void DriversChoice(int DriverChoice, Connection DB) {
         switch (DriverChoice) {
+            case 0:
+                return;
             case 1:
                 EnterDriverInfo(DB);
                 break;
