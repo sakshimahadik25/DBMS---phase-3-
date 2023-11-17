@@ -7,15 +7,15 @@ public class VehicleOperations {
                 return;
 
             case 1:
-                EnterVehicleOwnershipInfo(DB);
+                EnterVehicleOwnershipInfo(DB); // Add vehicle information
                 break;
 
             case 2:
-                UpdateVehicleOwnershipInfo(DB);
+                UpdateVehicleOwnershipInfo(DB); // update vehicle information
                 break;
 
             case 3:
-                DeleteVehicleOwnershipInfo(DB);
+                DeleteVehicleOwnershipInfo(DB); // delete vehicle information
                 break;
 
             default:

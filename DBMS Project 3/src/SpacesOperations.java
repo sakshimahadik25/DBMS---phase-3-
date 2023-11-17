@@ -8,15 +8,15 @@ public class SpacesOperations {
                 return;
 
             case 1:
-                AddSpace(DB);
+                AddSpace(DB); // add parking space
                 break;
 
             case 2:
-                UpdateSpaceInfo(DB);
+                UpdateSpaceInfo(DB); // update parking space information
                 break;
 
             case 3:
-                DeleteSpaceInfo(DB);
+                DeleteSpaceInfo(DB); // delete parking space
                 break;
 
             default:

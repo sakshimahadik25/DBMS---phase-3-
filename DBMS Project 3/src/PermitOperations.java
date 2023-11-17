@@ -7,15 +7,15 @@ public class PermitOperations {
                 return;
 
             case 1:
-                AssignPermit(DB);
+                AssignPermit(DB); // Assign Permit to Driver
                 break;
 
             case 2:
-                UpdatePermitInfo(DB);
+                UpdatePermitInfo(DB); // Update Permit Information
                 break;
 
             case 3:
-                DeletePermitInfo(DB);
+                DeletePermitInfo(DB); // Delete Permit
                 break;
 
             default:
@@ -220,11 +220,12 @@ public class PermitOperations {
         }
 
         try {
-            DB.setAutoCommit(false);
+            /* To keep the data consistent while updating Permits*/ 
+            DB.setAutoCommit(false); // Transaction creation
             stmt = DB.createStatement();
             String selectQuery = "SELECT * FROM Permits WHERE PermitID = " + PermitID;
             String deleteQuery = "DELETE FROM Permits WHERE PermitID = " + PermitID;
-            result = stmt.executeQuery(selectQuery);
+            result = stmt.executeQuery(selectQuery); // Fetching the Permit
 
             if(result.next()) {
                 PermitType = PermitType != "" ? PermitType : result.getString("PermitType");
@@ -240,6 +241,7 @@ public class PermitOperations {
             }
 
             if(updateChoice == 6 || updateChoice == 7) {
+                // Checking if the vehicle belongs to the correct owner
                 validatingQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
             }
 
@@ -256,9 +258,9 @@ public class PermitOperations {
                     ", '" + DriverID + "', '" + CarLicenseNumber + "', '" + ZoneID + "'" +
                     ", '" + ParkingLotName + "', '" + DriverStatus + "')";
 
-            stmt.executeUpdate(deleteQuery);
+            stmt.executeUpdate(deleteQuery); // Deleting the permit
 
-            int ans = stmt.executeUpdate(query);
+            int ans = stmt.executeUpdate(query); // Inserting the permit with updated value
             DB.commit();
 
             if (ans == 1) {
@@ -275,7 +277,7 @@ public class PermitOperations {
             if (DB != null) {
                 try {
                   System.err.println("\nTransaction is being rolled back");
-                  DB.rollback();
+                  DB.rollback(); // Roll back if any error occurs
                   DB.setAutoCommit(true);
                 } catch (SQLException excep) {
                   System.err.println("\nError:" + excep.getMessage());
