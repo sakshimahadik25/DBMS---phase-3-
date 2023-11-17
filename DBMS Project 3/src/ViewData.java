@@ -68,12 +68,12 @@ public class ViewData {
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
             if (result.next()) {
-                System.out.printf("%11s %20s %6s", "DriverID", "Name", "Status");
+                System.out.printf("%11s %20s %10s", "DriverID", "Name", "Status");
 
                 String Name = result.getString("Name");
                 String Status = result.getString("Status");
 
-                System.out.printf("\n%11s %20s %6s", DriverID, Name, Status);
+                System.out.printf("\n%11s %20s %10s", DriverID, Name, Status);
 
             } else {
                 throw new Exception(String.format("\nDriver ID %s does not exist", DriverID));
@@ -98,13 +98,13 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Drivers ---------------------\n");
-            System.out.printf("%11s %20s %6s", "DriverID", "Name", "Status");
+            System.out.printf("%11s %20s %10s", "DriverID", "Name", "Status");
             while (result.next()) {
                 String DriverID = result.getString("DriverID");
                 String Name = result.getString("Name");
                 String Status = result.getString("Status");
 
-                System.out.printf("\n%11s %20s %6s", DriverID, Name, Status);
+                System.out.printf("\n%11s %20s %10s", DriverID, Name, Status);
             }
             System.out.println("\n");
         } catch (SQLException err) {
@@ -126,11 +126,11 @@ public class ViewData {
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
             if (result.next()) {
-                System.out.printf("%23s %250s", "Parking Lot", "Address");
+                System.out.printf("%23s %150s", "Parking Lot", "Address");
 
                 String Address = result.getString("Address");
 
-                System.out.printf("\n%23s %250s", ParkingLotName, Address);
+                System.out.printf("\n%23s %150s", ParkingLotName, Address);
 
             } else {
                 throw new Exception(String.format("\nParking Lot %s does not exist", ParkingLotName));
@@ -155,12 +155,12 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Parking Lots ---------------------\n");
-            System.out.printf("%23s %250s", "Parking Lot", "Address");
+            System.out.printf("%23s %150s", "Parking Lot", "Address");
             while (result.next()) {
                 String ParkingLotName = result.getString("ParkingLotName");
                 String Address = result.getString("Address");
 
-                System.out.printf("\n%23s %250s", ParkingLotName, Address);
+                System.out.printf("\n%23s %150s", ParkingLotName, Address);
             }
             System.out.println("\n");
         } catch (SQLException err) {
@@ -182,11 +182,11 @@ public class ViewData {
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
 
-            System.out.printf("%10s %23s", "ZoneID", "ParkingLotName");
+            System.out.printf("%10s %30s", "ZoneID", "ParkingLotName");
             while (result.next()) {
                 String ParkingLotName = result.getString("ParkingLotName");
 
-                System.out.printf("\n%10s %23s", ZoneID, ParkingLotName);
+                System.out.printf("\n%10s %30s", ZoneID, ParkingLotName);
 
             } 
         } catch (SQLException err) {
@@ -209,12 +209,12 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Parking Zones ---------------------\n");
-            System.out.printf("%10s %23s", "ZoneID", "Parking Lot");
+            System.out.printf("%10s %30s", "ZoneID", "Parking Lot");
             while (result.next()) {
                 String ZoneID = result.getString("ZoneID");
                 String ParkingLotName = result.getString("ParkingLotName");
 
-                System.out.printf("\n%10s %23s", ZoneID, ParkingLotName);
+                System.out.printf("\n%10s %30s", ZoneID, ParkingLotName);
             }
             System.out.println("\n");
         } catch (SQLException err) {
@@ -235,13 +235,13 @@ public class ViewData {
             Connection DB = DatabaseConnection.getDBInstance();
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
-            System.out.printf("%11s %23s %15s %20s", "SpaceID", "Parking Lot", "Space Type", "Availability Status");
+            System.out.printf("%11s %23s %15s %25s", "SpaceID", "Parking Lot", "Space Type", "Availability Status");
             while (result.next()) {
                 String ParkingLotName = result.getString("ParkingLotName");
                 String SpaceType = result.getString("SpaceType");
                 String AvailabilityStatus = result.getString("AvailabilityStatus");
 
-                System.out.printf("\n%11s %23s %15s %20s", SpaceID, ParkingLotName, SpaceType, AvailabilityStatus);
+                System.out.printf("\n%11s %23s %15s %25s", SpaceID, ParkingLotName, SpaceType, AvailabilityStatus);
 
             }
         } catch (SQLException err) {
@@ -264,7 +264,7 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Parking Spaces ---------------------\n");
-            System.out.printf("%11s %23s %15s %20s", "SpaceID", "Parking Lot", "Space Type", "Availability Status");
+            System.out.printf("%11s %23s %15s %25s", "SpaceID", "Parking Lot", "Space Type", "Availability Status");
 
             while (result.next()) {
                 int SpaceID = result.getInt("SpaceID");
@@ -272,7 +272,7 @@ public class ViewData {
                 String SpaceType = result.getString("SpaceType");
                 String AvailabilityStatus = result.getString("AvailabilityStatus");
 
-                System.out.printf("\n%11s %23s %15s %20s", SpaceID, ParkingLotName, SpaceType, AvailabilityStatus);
+                System.out.printf("\n%11s %23s %15s %25s", SpaceID, ParkingLotName, SpaceType, AvailabilityStatus);
             }
             System.out.println("\n");
         } catch (SQLException err) {
@@ -294,7 +294,7 @@ public class ViewData {
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
             if (result.next()) {
-                System.out.printf("%8s %12s %11s %15s %15s %10s %11s %16s %6s %22s %13s", "PermitID", "Permit Type",
+                System.out.printf("\n%10s %20s %11s %20s %20s %15s %15s %20s %8s %30s %15s", "PermitID", "Permit Type",
                         "Start Date ", "Expiration Date", "Expiration Time", "Space Type", "DriverID",
                         "CarLicenseNumber", "ZoneID", "Parking Lot", "Driver Status");
 
@@ -309,7 +309,7 @@ public class ViewData {
                 String ParkingLotName = result.getString("ParkingLotName");
                 String DriverStatus = result.getString("DriverStatus");
 
-                System.out.printf("\n%8d %12s %11s %15s %15s %10s %11s %16s %6s %22s %13s", PermitID, PermitType,
+                System.out.printf("\n%10s %20s %11s %20s %20s %15s %15s %20s %8s %30s %15s", PermitID, PermitType,
                         StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID,
                         ParkingLotName, DriverStatus);
 
@@ -336,7 +336,7 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Permits ---------------------\n");
-            System.out.printf("%8s %12s %11s %15s %15s %10s %11s %16s %6s %22s %13s", "PermitID", "Permit Type",
+            System.out.printf("\n%10s %20s %11s %20s %20s %15s %15s %20s %8s %30s %15s", "PermitID", "Permit Type",
                     "Start Date ", "Expiration Date", "Expiration Time", "Space Type", "DriverID", "CarLicenseNumber",
                     "ZoneID", "Parking Lot", "Driver Status");
             while (result.next()) {
@@ -352,7 +352,7 @@ public class ViewData {
                 String ParkingLotName = result.getString("ParkingLotName");
                 String DriverStatus = result.getString("DriverStatus");
 
-                System.out.printf("\n%8d %12s %11s %15s %15s %10s %11s %16s %6s %22s %13s", PermitID, PermitType,
+                System.out.printf("\n%10d %20s %11s %20s %20s %15s %15s %20s %8s %30s %15s", PermitID, PermitType,
                         StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID,
                         ParkingLotName, DriverStatus);
             }
@@ -375,7 +375,7 @@ public class ViewData {
             Connection DB = DatabaseConnection.getDBInstance();
             stmt = DB.createStatement();
             result = stmt.executeQuery(query);
-            System.out.printf("%25s %15s %4s %20s %15s %11s", "Car License Number", "Model", "Year", "Color", "Manufacturer", "DriverID");
+            System.out.printf("%25s %15s %4s %20s %15s %15s", "Car License Number", "Model", "Year", "Color", "Manufacturer", "DriverID");
             while (result.next()) {
                 String Model = result.getString("Model");
                 int Year = result.getInt("Year");
@@ -383,7 +383,7 @@ public class ViewData {
                 String Manufacturer = result.getString("Manufacturer");
                 String DriverID = result.getString("DriverID");
 
-                System.out.printf("\n%25s %15s %4d %20s %15s %11s", CarLicenseNumber, Model, Year, Color, Manufacturer, DriverID);
+                System.out.printf("\n%25s %15s %4d %20s %15s %15s", CarLicenseNumber, Model, Year, Color, Manufacturer, DriverID);
 
             } 
         } catch (SQLException err) {
@@ -406,7 +406,7 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Vehicles ---------------------\n");
-            System.out.printf("%25s %25s %4s %20s %15s %11s", "Car License Number", "Model", "Year", "Color", "Manufacturer", "DriverID");
+            System.out.printf("%25s %25s %4s %20s %15s %15s", "Car License Number", "Model", "Year", "Color", "Manufacturer", "DriverID");
             while (result.next()) {
                 String CarLicenseNumber = result.getString("CarLicenseNumber");
                 String Model = result.getString("Model");
@@ -415,7 +415,7 @@ public class ViewData {
                 String Manufacturer = result.getString("Manufacturer");
                 String DriverID = result.getString("DriverID");
 
-                System.out.printf("\n%25s %25s %4d %20s %15s %11s", CarLicenseNumber, Model, Year, Color, Manufacturer, DriverID);
+                System.out.printf("\n%25s %25s %4d %20s %15s %15s", CarLicenseNumber, Model, Year, Color, Manufacturer, DriverID);
             }
             System.out.println("\n");
         } catch (SQLException err) {
@@ -436,17 +436,21 @@ public class ViewData {
             result = stmt.executeQuery(query);
 
             System.out.println("\n--------------------- Citations ---------------------\n");
-            System.out.printf("%15s %15s %15s %20s %10s %15s %15s %20s %15s %15s %10s", "Citation number",
-                    "Citation date", "Citation time", "Category", "Fee", "PaymentStatus", "AppealStatus",
-                    "CarLicenseNumber", "ParkingLot", "DriverID", "StaffID");
-            while (result.next()) {
-                System.out.printf("\n%15d %15s %15s %20s %10.2f %15s %15s %20s %15s %15s %10d",
-                        result.getInt("CitationNo"), result.getString("CitationDate"), result.getString("CitationTime"),
-                        result.getString("Category"), result.getFloat("Fee"), result.getString("PaymentStatus"),
-                        result.getString("AppealStatus"), result.getString("CarLicenseNumber"),
-                        result.getString("ParkingLotName"), result.getString("DriverID"), result.getInt("StaffID"));
+            if(result.next()){
+                System.out.printf("%15s %15s %15s %20s %10s %15s %15s %20s %30s %15s %10s", "Citation number",
+                        "Citation date", "Citation time", "Category", "Fee", "PaymentStatus", "AppealStatus",
+                        "CarLicenseNumber", "ParkingLot", "DriverID", "StaffID");
+                do{
+                    System.out.printf("\n%15d %15s %15s %20s %10.2f %15s %15s %20s %30s %15s %10d",
+                            result.getInt("CitationNo"), result.getString("CitationDate"), result.getString("CitationTime"),
+                            result.getString("Category"), result.getFloat("Fee"), result.getString("PaymentStatus"),
+                            result.getString("AppealStatus"), result.getString("CarLicenseNumber"),
+                            result.getString("ParkingLotName"), result.getString("DriverID"), result.getInt("StaffID"));
+                } while(result.next());
+            } else {
+                System.out.println(String.format("\nNo citations assigned till date"));
             }
-            System.out.println("\n");
+            System.out.println("\n\n");
         } catch (SQLException err) {
             System.out.println("\nError while generating citations - " + err.getMessage());
         } finally {
@@ -467,7 +471,7 @@ public class ViewData {
             stmt = DB.createStatement();
             result = stmt.executeQuery(getCitationQuery);
             if (result.next()) {
-                System.out.printf("%15s %15s %15s %20s %10s %15s %15s %20s %15s %15s %10s", "Citation number",
+                System.out.printf("\n%15s %15s %15s %20s %10s %15s %15s %20s %30s %15s %10s", "Citation number",
                         "Citation date", "Citation time", "Category", "Fee", "PaymentStatus", "AppealStatus",
                         "CarLicenseNumber", "ParkingLot", "DriverID", "StaffID");
 
@@ -482,12 +486,12 @@ public class ViewData {
                 String driverID = result.getString("DriverID");
                 int staffID = result.getInt("StaffID");
 
-                System.out.printf("\n%15d %15s %15s %20s %10.2f %15s %15s %20s %15s %15s %10d", citationNo,
+                System.out.printf("\n%15d %15s %15s %20s %10.2f %15s %15s %20s %30s %15s %10d", citationNo,
                         citationDate, citationTime, category, fee, paymentStatus, appealStatus, carLicenseNumber,
                         parkingLot, driverID, staffID);
 
             } else {
-                throw new Exception(String.format("\nCitation %d does not exist", citationNo));
+                throw new Exception(String.format("Citation %d does not exist", citationNo));
             }
         } catch (SQLException err) {
             System.out.println("\nError while fetching citation details: " + err.getMessage());
