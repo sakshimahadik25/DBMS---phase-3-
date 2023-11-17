@@ -245,12 +245,15 @@ public class PermitOperations {
                 validatingQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
             }
 
-            validateResult = stmt.executeQuery(validatingQuery);
-            if(validateResult.next()) {
-                if(validateResult.getString("DriverID") != DriverID) {
-                    throw new SQLException("Vehicle owner information does not match!");
+            if(validatingQuery != ""){
+                validateResult = stmt.executeQuery(validatingQuery);
+                if(validateResult.next()) {
+                    if(validateResult.getString("DriverID") != DriverID) {
+                        throw new SQLException("Vehicle owner information does not match!");
+                    }
                 }
             }
+
 
             query = "INSERT INTO Permits (PermitID, PermitType, StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID, ParkingLotName, DriverStatus) "
                     + "VALUES (" + PermitID + ", '" + PermitType + "', '" + StartDate + "', " +
