@@ -78,7 +78,7 @@ public class SpacesOperations {
         int SpaceID = UserInput.getInt("\nEnter Space ID of the space you want to update");
         String ParkingLotName = UserInput.getString("Enter Parking Lot name of that space");
         System.out.println("\nEnter the field you want to update:" +
-                "\n1. Space Type \n2. Availability Status");
+                "\n1. Space Type \n2. Availability Status \n3. Parking Lot Name");
 
         int updateChoice = UserInput.getInt("\nEnter your choice");
         if (updateChoice == 1) {
@@ -109,6 +109,11 @@ public class SpacesOperations {
             String AvailabilityStatus = UserInput.getString("Enter the Availability Status of the space");
             query = "UPDATE Spaces SET " +
                     "AvailabilityStatus = '" + AvailabilityStatus + "' WHERE " +
+                    "SpaceID = " + SpaceID + " AND ParkingLotName = '" + ParkingLotName + "'";
+        } else if (updateChoice == 3) {
+            String updateParkingLotName = UserInput.getString("Enter the Parking Lot Name");
+            query = "UPDATE Spaces SET " +
+                    "ParkingLotName = '" + updateParkingLotName + "' WHERE " +
                     "SpaceID = " + SpaceID + " AND ParkingLotName = '" + ParkingLotName + "'";
         }
 
