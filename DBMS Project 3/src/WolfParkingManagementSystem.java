@@ -19,6 +19,7 @@ public class WolfParkingManagementSystem {
                         "\n6. Vehicle Operations " +
                         "\n7. Citation Operations" +
                         "\n8. Report Operations" +
+                        "\n9. View Data" +
                         "\n\n (Press 0 to exit the program)");
                 choice = UserInput.getInt("\nEnter the option");
                 switch (choice) {
@@ -138,6 +139,32 @@ public class WolfParkingManagementSystem {
                             reportChoice = UserInput.getInt("\nEnter your choice");
                             ReportOperations.ReportOperationChoice(reportChoice);
                         } while (reportChoice != 0);
+                        break;
+
+                    case 9:
+                        int viewChoice;
+                        do {
+                            System.out.println("\n-----------------------------------------");
+                            System.out.println("\nView Data Operations: ");
+                            System.out.println("\n1. Get all Drivers" +
+                                    "\n2. Get Driver by ID" +
+                                    "\n3. Get all Parking Lots" +
+                                    "\n4. Get Parking Lot by Name" +
+                                    "\n5. Get all Zones" +
+                                    "\n6. Get Zone by ID" +
+                                    "\n7. Get all Spaces" +
+                                    "\n8. Get Space by ID" +
+                                    "\n9. Get all Permits" + 
+                                    "\n10. Get Permit by ID" +
+                                    "\n11. Get all Vehicles" +
+                                    "\n12. Get Vehicle by License Number" +
+                                    "\n13. Get all Citations" +
+                                    "\n14. Get Citation by ID" +
+                                    "\n\n(Press 0 to exit to main menu)"
+                            );
+                            viewChoice = UserInput.getInt("\nEnter your choice");
+                            ViewData.ViewDataChoice(viewChoice);
+                        } while (viewChoice != 0);
                         break;
 
                     default:
