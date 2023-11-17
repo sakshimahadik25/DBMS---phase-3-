@@ -7,15 +7,15 @@ public class DriversOperations {
             case 0:
                 return;
             case 1:
-                EnterDriverInfo(DB);
+                EnterDriverInfo(DB); // For Adding new Driver
                 break;
 
             case 2:
-                UpdateDriverInfo(DB);
+                UpdateDriverInfo(DB); // For Updating Driver Information
                 break;
 
             case 3:
-                DeleteDriverInfo(DB);
+                DeleteDriverInfo(DB); // For Deleting Driver
                 break;
 
             default:

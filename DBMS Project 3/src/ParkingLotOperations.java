@@ -6,15 +6,15 @@ public class ParkingLotOperations {
             case 0:
                 return;
             case 1:
-                EnterParkingLotInfo(DB);
+                EnterParkingLotInfo(DB); // Adding Parking Lot
                 break;
 
             case 2:
-                UpdateParkingLotInfo(DB);
+                UpdateParkingLotInfo(DB); // Updating Parking Lot Information
                 break;
 
             case 3:
-                DeleteParkingLot(DB);
+                DeleteParkingLot(DB); // Deleting Parking Lot Information
                 break;
 
             default:

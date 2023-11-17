@@ -7,15 +7,15 @@ public class ZonesOperations {
                 return;
 
             case 1:
-                AssignZone(DB);
+                AssignZone(DB); // Assign Zone to Parking Lot
                 break;
 
             case 2:
-                UpdateZoneInfo(DB);
+                UpdateZoneInfo(DB); // Update the zone information
                 break;
 
             case 3:
-                DeleteZoneInfo(DB);
+                DeleteZoneInfo(DB); // Delete Zone
                 break;
 
             default:
