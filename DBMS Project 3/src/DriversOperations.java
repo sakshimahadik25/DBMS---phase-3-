@@ -58,6 +58,8 @@ public class DriversOperations {
     public static void UpdateDriverInfo(Connection DB) {
         Statement stmt = null;
         String query = "";
+        String deleteQuery1 = "";
+        String deleteQuery2 = "";
         System.out.println("\n-----------------------------------------");
         String DriverID = UserInput.getString("\nEnter driver's ID or Phone Number you want to update");
         System.out.println("\nEnter the field you want to update:" +
@@ -75,7 +77,8 @@ public class DriversOperations {
                     "\nEnter");
             query = "UPDATE Drivers set Status=" + "'" + DriverStatus + "'" +
                     "WHERE DriverID=" + "'" + DriverID + "'";
-
+            deleteQuery1 = "DELETE FROM Permits WHERE DriverID = " + DriverID;
+            deleteQuery2 = "DELETE FROM Citations WHERE DriverID = " + DriverID;
         }
 
         try {
@@ -90,6 +93,9 @@ public class DriversOperations {
                 System.out.println("\nError while updating Driver Information!");
             }
 
+            // If Driver Status changes, all it's previous citations and permits are deleted.
+            stmt.executeUpdate(deleteQuery1);
+            stmt.executeUpdate(deleteQuery2);
         } catch (SQLException oops) {
             System.err.println("\nError:" + oops.getMessage());
         } finally {

@@ -47,11 +47,22 @@ public class ParkingLotOperations {
 
     public static void UpdateParkingLotInfo(Connection DB) {
         Statement stmt = null;
+        String query = "";
         System.out.println("\n-----------------------------------------");
         String ParkingLotName = UserInput.getString("\nEnter Parking Lot name you want to update");
-        String Address = UserInput.getString("\nEnter the address");
-        String query = "UPDATE ParkingLots SET Address = '" + Address + "' WHERE ParkingLotName = '" + ParkingLotName
-                + "'";
+        int updateChoice = UserInput.getInt("\nChoose the field you want to update" + 
+        "\n1. Parking Lot Name" + 
+        "\n2. Address of the parking lot" +
+        "\nEnter the option number");
+        if(updateChoice == 1) {
+            String UpdateParkingLotName = UserInput.getString("\nEnter Parking Lot name");
+            query = "UPDATE ParkingLots SET ParkingLotName = '" + UpdateParkingLotName + "' WHERE ParkingLotName = '" + ParkingLotName + "'";
+        }
+        else if (updateChoice == 2) {
+            String Address = UserInput.getString("\nEnter the address");
+            query = "UPDATE ParkingLots SET Address = '" + Address + "' WHERE ParkingLotName = '" + ParkingLotName
+            + "'";
+        }
 
         try {
             stmt = DB.createStatement();

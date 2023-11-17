@@ -24,6 +24,7 @@ public class PermitOperations {
 
     public static void AssignPermit(Connection DB) {
         Statement stmt = null;
+        ResultSet result = null;
         System.out.println("\n-----------------------------------------");
         int PT = UserInput.getInt("\nEnter Permit type:" +
                 "\n1. Residential" +
@@ -79,6 +80,9 @@ public class PermitOperations {
                 "\n3. If Visitor, enter V" +
                 "\nEnter");
 
+        
+        String selectQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
+
         String query = "INSERT INTO Permits (PermitType, StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID, ParkingLotName, DriverStatus) "
                 +
                 "VALUES ('" + PermitType + "', '" + StartDate + "', " +
@@ -88,7 +92,17 @@ public class PermitOperations {
 
         try {
             stmt = DB.createStatement();
-            int ans = stmt.executeUpdate(query);
+            int ans = 0;
+            result = stmt.executeQuery(selectQuery);
+            
+            if(result.next()) {
+                if(result.getString("DriverID") != DriverID) {
+                    throw new Exception("\nError: Vehicle owner information does not match!");
+                }
+                else {
+                    ans = stmt.executeUpdate(query);
+                }
+            }
 
             if (ans == 1) {
                 System.out.println("\nCongratulations! Permit successfully assigned to the driver!");
@@ -100,8 +114,11 @@ public class PermitOperations {
 
         } catch (SQLException oops) {
             System.err.println("\nError:" + oops.getMessage());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
+            DatabaseConnection.close(result);
         }
     }
 
@@ -109,6 +126,8 @@ public class PermitOperations {
         Statement stmt = null;
         ResultSet result = null;
         String query = "";
+        String validatingQuery = "";
+        ResultSet validateResult = null;
         System.out.println("\n-----------------------------------------");
         String PermitID = UserInput.getString("\nEnter Permit's ID whose information you want to update");
         String PermitType = "";
@@ -217,6 +236,17 @@ public class PermitOperations {
                 DriverStatus = DriverStatus != "" ? DriverStatus : result.getString("DriverStatus");
             }
 
+            if(updateChoice == 6 || updateChoice == 7) {
+                validatingQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
+            }
+
+            validateResult = stmt.executeQuery(validatingQuery);
+            if(validateResult.next()) {
+                if(validateResult.getString("DriverID") != DriverID) {
+                    throw new SQLException("Vehicle owner information does not match!");
+                }
+            }
+
             query = "INSERT INTO Permits (PermitID, PermitType, StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID, ParkingLotName, DriverStatus) "
                     + "VALUES (" + PermitID + ", '" + PermitType + "', '" + StartDate + "', " +
                     "'" + ExpirationDate + "', '" + ExpirationTime + "', '" + SpaceType + "'" +
@@ -241,8 +271,9 @@ public class PermitOperations {
             System.err.println("\nError:" + oops.getMessage());
             if (DB != null) {
                 try {
-                  System.err.print("\nTransaction is being rolled back");
+                  System.err.println("\nTransaction is being rolled back");
                   DB.rollback();
+                  DB.setAutoCommit(true);
                 } catch (SQLException excep) {
                   System.err.println("\nError:" + excep.getMessage());
                 }
