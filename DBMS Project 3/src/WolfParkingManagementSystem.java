@@ -114,7 +114,7 @@ public class WolfParkingManagementSystem {
                                     "\n4. Detect Parking Violation" +
                                     "\n5. Appeal Citation" +
                                     "\n6. Pay For Citation" +
-                                    "\n\n (Press 0 to exit)" + "\n\n(Press 0 to exit to main menu)");
+                                    "\n\n(Press 0 to exit to main menu)");
                             citationChoice = UserInput.getInt("\nEnter your choice");
                             Citation.CitationChoice(citationChoice);
                         } while (citationChoice != 0);

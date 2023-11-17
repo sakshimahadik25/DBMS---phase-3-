@@ -23,8 +23,8 @@ public class Citation {
         return "\'" + s + "\'";
     }
 
-    public static void CitationChoice(int citationChoice) throws SQLException{
-        switch (citationChoice){
+    public static void CitationChoice(int citationChoice) throws SQLException {
+        switch (citationChoice) {
             case 0:
                 return;
             case 1:
@@ -52,8 +52,6 @@ public class Citation {
     }
 
 
-
-
     /**
      * This method takes citation number from user and delete it from the database. If there is no row manipulation, then it will throw error.
      */
@@ -78,8 +76,6 @@ public class Citation {
             DatabaseConnection.close(stmt);
         }
     }
-
-
 
 
     /**
@@ -112,33 +108,44 @@ public class Citation {
             float fee = categoryFee.get(category);
             if (isHandicap) fee /= 2;
 
-            String query = "INSERT INTO Citations (";
-            for (int i = 1; i < attributeList.length; i++) {
-                query += attributeList[i];
-                if (i != attributeList.length - 1) query += ",";
-            }
-            query += ") VALUES (";
-            query += stringify(citationDate) + "," + stringify(citationTime) + "," + stringify(category) + "," + fee + "," + stringify(paymentStatus) + "," + stringify(appealStatus) + "," + stringify(carLicenseNumber) + "," + stringify(parkingLotName) + "," + stringify(driverID) + "," + staffID;
-            query += ");";
-
             Statement stmt = null;
+            ResultSet result = null;
+            Connection DB = DatabaseConnection.getDBInstance();
 
             try {
-                Connection DB = DatabaseConnection.getDBInstance();
+                String getVehicleQuery = String.format("SELECT * FROM Vehicles WHERE DriverID = %s AND CarLicenseNumber = %s;", stringify(driverID), stringify(carLicenseNumber));
+                stmt = DB.createStatement();
+                result = stmt.executeQuery(getVehicleQuery);
+
+                if (!result.next()) {
+                    throw new Exception(String.format("The driver with (%s) is not an owner of car (%s)", driverID, carLicenseNumber));
+                }
+
+                String query = "INSERT INTO Citations (";
+                for (int i = 1; i < attributeList.length; i++) {
+                    query += attributeList[i];
+                    if (i != attributeList.length - 1) query += ",";
+                }
+                query += ") VALUES (";
+                query += stringify(citationDate) + "," + stringify(citationTime) + "," + stringify(category) + "," + fee + "," + stringify(paymentStatus) + "," + stringify(appealStatus) + "," + stringify(carLicenseNumber) + "," + stringify(parkingLotName) + "," + stringify(driverID) + "," + staffID;
+                query += ");";
+
+
                 stmt = DB.createStatement();
                 boolean createStatus = stmt.execute(query);
                 if (!createStatus) {
-                    System.out.println("Success: Citation generated");
+                    System.out.println("\nSuccess: Citation generated successfully");
                 }
             } catch (SQLException err) {
                 System.out.println("Error while generating citation: " + err.getMessage());
-            }  finally {
+            } catch (Exception err) {
+                System.out.println("\nError: " + err.getMessage());
+            } finally {
                 DatabaseConnection.close(stmt);
+                DatabaseConnection.close(result);
             }
         }
     }
-
-
 
 
     /**
@@ -147,6 +154,7 @@ public class Citation {
      * 3. The citation information is validated and then deleted from database.
      * 4. New citation information is then inserted into database.
      * 5. During any of the Get, Delete, Insert citation operation, if any error occurs, then the transaction is rolled back.
+     *
      * @throws SQLException
      */
     public static void update() throws SQLException {
@@ -170,7 +178,7 @@ public class Citation {
             } else {
                 // Delete previous citation
                 int deleteCount = stmt.executeUpdate(deleteQuery);
-                if(deleteCount == 0) {
+                if (deleteCount == 0) {
                     // If error occurs while deleting the citation, exception is thrown and the transaction is rolled back
                     throw new Exception(String.format("Error while updating citation %d", citationNo));
                 }
@@ -220,7 +228,7 @@ public class Citation {
                     if (selectedAppealStatus.equals(AppealStatus.ACCEPT))
                         paymentStatus = PaymentStatus.WAIVED;
                     else if (selectedAppealStatus.equals(AppealStatus.IN_PROGRESS))
-                          paymentStatus = PaymentStatus.DUE;
+                        paymentStatus = PaymentStatus.DUE;
                 } else if (attr == "PaymentStatus") {
                     System.out.print("Select payment status: ");
                     String[] paymentStatuses = PaymentStatus.getPaymentStatuses();
@@ -233,7 +241,7 @@ public class Citation {
                             appealStatus = AppealStatus.REJECT;
                     }
                 } else {
-                    switch (attr){
+                    switch (attr) {
                         case "StaffID":
                             staffID = UserInput.getInt("Enter " + attr);
                             break;
@@ -258,7 +266,7 @@ public class Citation {
 
 
                 String values = "";
-                values += citationNo + "," +  stringify(citationDate) + "," + stringify(citationTime) + "," + fee + "," + stringify(paymentStatus) + "," + stringify(appealStatus) + "," + stringify(carLicenseNumber) + "," + stringify(parkingLotName) + "," + stringify(driverID) + "," + staffID + "," + stringify(category);
+                values += citationNo + "," + stringify(citationDate) + "," + stringify(citationTime) + "," + fee + "," + stringify(paymentStatus) + "," + stringify(appealStatus) + "," + stringify(carLicenseNumber) + "," + stringify(parkingLotName) + "," + stringify(driverID) + "," + staffID + "," + stringify(category);
                 query = String.format(query, values);
                 stmt = DB.createStatement();
 
@@ -267,12 +275,12 @@ public class Citation {
                 if (updateStatus > 0) {
                     // If the citation is inserted successfully, then the transaction is committed
                     DB.commit();
-                    System.out.println("Citation updated successfully");
+                    System.out.println("Success: Citation updated successfully");
                 } else {
                     // If error occurs while inserting the citation, exception is thrown and the transaction is rolled back
                     throw new Exception(String.format("Error while updating citation %d", citationNo));
+                }
             }
-        }
         } catch (SQLException err) {
             DB.rollback();
             System.out.println("\nError while fetching citation details: " + err.getMessage());
@@ -287,10 +295,9 @@ public class Citation {
     }
 
 
-
-
     /**
      * This method help to detect any parking violations. It takes CarLicenseNumber, ParkingLotName, and ZoneID from user.
+     *
      * @return true if there are any parking violation for the car, otherwise false.
      */
     public static boolean detectParkingViolations() {
@@ -342,13 +349,11 @@ public class Citation {
 
         } catch (SQLException err) {
             System.out.println("\nError while detecting parking violations: " + err.getMessage());
-        }  finally {
+        } finally {
             DatabaseConnection.close(stmt);
         }
         return false;
     }
-
-
 
 
     /**
@@ -376,8 +381,6 @@ public class Citation {
             DatabaseConnection.close(stmt);
         }
     }
-
-
 
 
     /**
@@ -431,8 +434,6 @@ public class Citation {
             DatabaseConnection.close(prep_stmt);
         }
     }
-
-
 
 
     private static String displayOptions(String[] list) {
