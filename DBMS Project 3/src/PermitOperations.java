@@ -24,6 +24,7 @@ public class PermitOperations {
 
     public static void AssignPermit(Connection DB) {
         Statement stmt = null;
+        ResultSet result = null;
         System.out.println("\n-----------------------------------------");
         int PT = UserInput.getInt("\nEnter Permit type:" +
                 "\n1. Residential" +
@@ -79,6 +80,9 @@ public class PermitOperations {
                 "\n3. If Visitor, enter V" +
                 "\nEnter");
 
+        
+        String selectQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
+
         String query = "INSERT INTO Permits (PermitType, StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID, ParkingLotName, DriverStatus) "
                 +
                 "VALUES ('" + PermitType + "', '" + StartDate + "', " +
@@ -88,7 +92,17 @@ public class PermitOperations {
 
         try {
             stmt = DB.createStatement();
-            int ans = stmt.executeUpdate(query);
+            int ans = 0;
+            result = stmt.executeQuery(selectQuery);
+            
+            if(result.next()) {
+                if(result.getString("DriverID") != DriverID) {
+                    throw new Exception("\nError: Vehicle owner information does not match!");
+                }
+                else {
+                    ans = stmt.executeUpdate(query);
+                }
+            }
 
             if (ans == 1) {
                 System.out.println("\nCongratulations! Permit successfully assigned to the driver!");
@@ -98,18 +112,35 @@ public class PermitOperations {
                 System.out.println("\nError while assigning Permit to the driver!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
+            DatabaseConnection.close(result);
         }
     }
 
     public static void UpdatePermitInfo(Connection DB) {
         Statement stmt = null;
+        ResultSet result = null;
         String query = "";
+        String validatingQuery = "";
+        ResultSet validateResult = null;
         System.out.println("\n-----------------------------------------");
         String PermitID = UserInput.getString("\nEnter Permit's ID whose information you want to update");
+        String PermitType = "";
+        String StartDate = "";
+        String ExpirationDate = "";
+        String ExpirationTime = "";
+        String SpaceType = "";
+        String DriverID = "";
+        String CarLicenseNumber = "";
+        String ZoneID = "";
+        String ParkingLotName = "";
+        String DriverStatus = "";
+
         System.out.println("\nEnter the field you want to update:" +
                 "\n1. Permit Type" +
                 "\n2. Start Date" +
@@ -131,7 +162,7 @@ public class PermitOperations {
                     "\n5. Park & Ride" +
                     "\nEnter the option number");
 
-            String PermitType = "";
+            PermitType = "";
 
             if (PT == 1) {
                 PermitType = "residential";
@@ -144,25 +175,12 @@ public class PermitOperations {
             } else if (PT == 5) {
                 PermitType = "Park & Ride";
             }
-            query = "UPDATE Permits SET PermitType = '" + PermitType + "'" +
-                    "WHERE PermitID = " + PermitID;
-
         } else if (updateChoice == 2) {
-            String StartDate = UserInput.getString("Enter the Start Date of the permit in YYYY-MM-DD format");
-
-            query = "UPDATE Permits SET StartDate = '" + StartDate + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            StartDate = UserInput.getString("Enter the Start Date of the permit in YYYY-MM-DD format");
         } else if (updateChoice == 3) {
-            String ExpirationDate = UserInput.getString("Enter the End Date of the permit in YYYY-MM-DD format");
-            query = "UPDATE Permits SET ExpirationDate = '" + ExpirationDate + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            ExpirationDate = UserInput.getString("Enter the End Date of the permit in YYYY-MM-DD format");
         } else if (updateChoice == 4) {
-            String ExpirationTime = UserInput.getString("Enter the Expiration Time of the permit in HH:MM:SS format");
-            query = "UPDATE Permits SET ExpirationTime = '" + ExpirationTime + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            ExpirationTime = UserInput.getString("Enter the Expiration Time of the permit in HH:MM:SS format");
         } else if (updateChoice == 5) {
             int ST = UserInput.getInt("Enter Space Type for which the permit is issued:" +
                     "\n1. Electric" +
@@ -171,7 +189,7 @@ public class PermitOperations {
                     "\n4. Regular" +
                     "\nEnter the option number");
 
-            String SpaceType = "";
+            SpaceType = "";
 
             if (ST == 1) {
                 SpaceType = "electric";
@@ -182,42 +200,63 @@ public class PermitOperations {
             } else if (ST == 4) {
                 SpaceType = "regular";
             }
-            query = "UPDATE Permits SET SpaceType = '" + SpaceType + "'" +
-                    "WHERE PermitID = " + PermitID;
-
         } else if (updateChoice == 6) {
-            String DriverID = UserInput.getString("Enter the Driver's ID");
-            query = "UPDATE Permits SET DriverID = '" + DriverID + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            DriverID = UserInput.getString("Enter the Driver's ID");
         } else if (updateChoice == 7) {
-            String CarLicenseNumber = UserInput.getString("Enter the Car License Number");
-            query = "UPDATE Permits SET CarLicenseNumber = '" + CarLicenseNumber + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            CarLicenseNumber = UserInput.getString("Enter the Car License Number");
         } else if (updateChoice == 8) {
-            String ZoneID = UserInput.getString("Enter the Zone ID");
-            query = "UPDATE Permits SET ZoneID = '" + ZoneID + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            ZoneID = UserInput.getString("Enter the Zone ID");
         } else if (updateChoice == 9) {
-            String ParkingLotName = UserInput.getString("Enter the Parking Lot Name");
-            query = "UPDATE Permits SET ParkingLotName = '" + ParkingLotName + "'" +
-                    "WHERE PermitID = " + PermitID;
-
+            ParkingLotName = UserInput.getString("Enter the Parking Lot Name");
         } else if (updateChoice == 10) {
-            String DriverStatus = UserInput.getString("Enter Driver Status:" +
+            DriverStatus = UserInput.getString("Enter Driver Status:" +
                     "\n1. If Student, enter S" +
                     "\n2. If Employee, enter E" +
                     "\n3. If Visitor, enter V" +
                     "\nEnter");
-            query = "UPDATE Permits SET DriverStatus = '" + DriverStatus + "'" +
-                    "WHERE PermitID = " + PermitID;
         }
 
         try {
+            DB.setAutoCommit(false);
             stmt = DB.createStatement();
+            String selectQuery = "SELECT * FROM Permits WHERE PermitID = " + PermitID;
+            String deleteQuery = "DELETE FROM Permits WHERE PermitID = " + PermitID;
+            result = stmt.executeQuery(selectQuery);
+
+            if(result.next()) {
+                PermitType = PermitType != "" ? PermitType : result.getString("PermitType");
+                StartDate = StartDate != "" ? StartDate : result.getString("StartDate");
+                ExpirationDate = ExpirationDate != "" ? ExpirationDate : result.getString("ExpirationDate");
+                ExpirationTime = ExpirationTime != "" ? ExpirationTime : result.getString("ExpirationTime");
+                SpaceType = SpaceType != "" ? SpaceType : result.getString("SpaceType");
+                DriverID = DriverID != "" ? DriverID : result.getString("DriverID");
+                CarLicenseNumber = CarLicenseNumber != "" ? CarLicenseNumber : result.getString("CarLicenseNumber");
+                ZoneID = ZoneID != "" ? ZoneID : result.getString("ZoneID");
+                ParkingLotName = ParkingLotName != "" ? ParkingLotName : result.getString("ParkingLotName");
+                DriverStatus = DriverStatus != "" ? DriverStatus : result.getString("DriverStatus");
+            }
+
+            if(updateChoice == 6 || updateChoice == 7) {
+                validatingQuery = "SELECT DriverID FROM Vehicles WHERE CarLicenseNumber = '" + CarLicenseNumber + "'";
+            }
+
+            validateResult = stmt.executeQuery(validatingQuery);
+            if(validateResult.next()) {
+                if(validateResult.getString("DriverID") != DriverID) {
+                    throw new SQLException("Vehicle owner information does not match!");
+                }
+            }
+
+            query = "INSERT INTO Permits (PermitID, PermitType, StartDate, ExpirationDate, ExpirationTime, SpaceType, DriverID, CarLicenseNumber, ZoneID, ParkingLotName, DriverStatus) "
+                    + "VALUES (" + PermitID + ", '" + PermitType + "', '" + StartDate + "', " +
+                    "'" + ExpirationDate + "', '" + ExpirationTime + "', '" + SpaceType + "'" +
+                    ", '" + DriverID + "', '" + CarLicenseNumber + "', '" + ZoneID + "'" +
+                    ", '" + ParkingLotName + "', '" + DriverStatus + "')";
+
+            stmt.executeUpdate(deleteQuery);
+
             int ans = stmt.executeUpdate(query);
+            DB.commit();
 
             if (ans == 1) {
                 System.out.println("\nCongratulations! Permit information successfully updated!");
@@ -226,11 +265,22 @@ public class PermitOperations {
             else {
                 System.out.println("\nError while updating Permit Information!");
             }
+            DB.setAutoCommit(true);
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
+            if (DB != null) {
+                try {
+                  System.err.println("\nTransaction is being rolled back");
+                  DB.rollback();
+                  DB.setAutoCommit(true);
+                } catch (SQLException excep) {
+                  System.err.println("\nError:" + excep.getMessage());
+                }
+              }
         } finally {
             DatabaseConnection.close(stmt);
+            DatabaseConnection.close(result);
         }
     }
 
@@ -251,8 +301,8 @@ public class PermitOperations {
                 System.out.println("\nError while deleting Permit Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }

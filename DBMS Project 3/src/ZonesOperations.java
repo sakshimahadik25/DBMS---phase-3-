@@ -42,8 +42,8 @@ public class ZonesOperations {
                 System.out.println("\nError while adding new Zone!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -72,8 +72,8 @@ public class ZonesOperations {
                 System.out.println("\nError while updating Zone Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
@@ -98,8 +98,8 @@ public class ZonesOperations {
                 System.out.println("\nError while deleting Zone Information!");
             }
 
-        } catch (Throwable oops) {
-            oops.printStackTrace();
+        } catch (SQLException oops) {
+            System.err.println("\nError:" + oops.getMessage());
         } finally {
             DatabaseConnection.close(stmt);
         }
